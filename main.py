@@ -15,7 +15,6 @@ driver.maximize_window()
 
 
 def enter_email():
-    global next_btn
     email = wait.until(EC.visibility_of_element_located((By.ID, "identifierId")))
     email.send_keys("kavindu@ceydigital.com")
     next_btn = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR,
@@ -25,18 +24,35 @@ def enter_email():
 
 def enter_password():
     time.sleep(60)  # enter_your_password
-    password_input_values = wait.until(
-        EC.visibility_of_element_located((By.CSS_SELECTOR, 'input[type="password"]'))).get_attribute(
-        "data-initial-value")
+    password_input_values = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'input[aria-label="Enter your password"]'))).get_attribute("data-initial-value")
     if password_input_values != "":
+        next_btn = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                                                'button[class="VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc LQeN7 BqKGqe Jskylb TrZEUc lw1w4b"] span[class="VfPpkd-vQzf8d"]')))
         next_btn.click()
         time.sleep(5)
         try:
             wrong_password = driver.find_element(By.CSS_SELECTOR, 'div[aria-live="polite"] span[jsslot]')
-            print(wrong_password)
+            print(wrong_password.text)
 
         except NoSuchElementException:
             pass
+
+    else:
+        print("Please enter your password")
+        time.sleep(60)
+        next_btn = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                                                'button[class="VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc LQeN7 BqKGqe Jskylb TrZEUc lw1w4b"] span[class="VfPpkd-vQzf8d"]')))
+        next_btn.click()
+        try:
+            wrong_password = driver.find_element(By.CSS_SELECTOR, 'div[aria-live="polite"] span[jsslot]')
+            print(wrong_password.text)
+
+        except NoSuchElementException:
+            pass
+
+
+
+
 
 
 # functions_calling
