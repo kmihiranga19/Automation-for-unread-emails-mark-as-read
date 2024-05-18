@@ -24,15 +24,17 @@ def enter_email():
 
 def enter_password():
     time.sleep(60)  # enter_your_password
-    password_input_values = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'input[aria-label="Enter your password"]'))).get_attribute("data-initial-value")
+    password_input_values = wait.until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, 'input[aria-label="Enter your password"]'))).get_attribute(
+        "data-initial-value")
     if password_input_values != "":
         next_btn = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR,
                                                                 'button[class="VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc LQeN7 BqKGqe Jskylb TrZEUc lw1w4b"] span[class="VfPpkd-vQzf8d"]')))
         next_btn.click()
         time.sleep(5)
         try:
-            wrong_password = driver.find_element(By.CSS_SELECTOR, 'div[aria-live="polite"] span[jsslot]')
-            print(wrong_password.text)
+            error_message = driver.find_element(By.CSS_SELECTOR, 'div[aria-live="polite"] span[jsslot]')
+            print(error_message.text)
 
         except NoSuchElementException:
             pass
@@ -44,14 +46,11 @@ def enter_password():
                                                                 'button[class="VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc LQeN7 BqKGqe Jskylb TrZEUc lw1w4b"] span[class="VfPpkd-vQzf8d"]')))
         next_btn.click()
         try:
-            wrong_password = driver.find_element(By.CSS_SELECTOR, 'div[aria-live="polite"] span[jsslot]')
-            print(wrong_password.text)
+            error_message = driver.find_element(By.CSS_SELECTOR, 'div[aria-live="polite"] span[jsslot]')
+            print(error_message.text)
 
         except NoSuchElementException:
             pass
-
-
-
 
 
 
