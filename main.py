@@ -53,36 +53,57 @@ def enter_password():
             pass
 
 
-def emails_mark_as_read():
+def select_page_all_emails():
     select_all_checkbox = wait.until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[style="user-select: none;"]')))
     select_all_checkbox.click()
+
+
+def check_emails_read():
+    time.sleep(5)
+    try:
+        mark_as_unread = driver.find_element(By.CSS_SELECTOR, 'div[data-tooltip="Mark as unread"]')
+        if mark_as_unread:
+            return False
+    except NoSuchElementException:
+        return True
+
+
+def emails_mark_as_read():
     mark_as_read = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[data-tooltip="Mark as read"]')))
     mark_as_read.click()
 
 
 def click_older_page():
-    older = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[data-tooltip="Newer"]')))
+    older = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[data-tooltip="Older"]')))
     older.click()
 
 
 def older_page_available():
-    older = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[data-tooltip="Newer"]')))
+    older = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[data-tooltip="Older"]')))
     older_disable = older.get_attribute("aria-disabled")
     print(older_disable)
-    if older_disable == "true":
-        return False
-    else:
+    if older_disable != "true":
         return True
+    else:
+        return False
 
 
 def all_emails_as_read(older):
     while older:
-        emails_mark_as_read()
+        select_page_all_emails()
+        verify = check_emails_read()
+        if verify == "True":
+            while older:
+                emails_mark_as_read()
+                click_older_page()
+        else:
+            click_older_page()
+
 
 
 # functions_calling
 enter_email()
 enter_password()
 available = older_page_available()
-# all_emails_as_read(available)
+all_emails_as_read(available)
