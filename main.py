@@ -94,12 +94,10 @@ def all_emails_as_read(older):
         select_page_all_emails()
         verify = check_emails_read()
         if verify == "True":
-            while older:
-                emails_mark_as_read()
-                click_older_page()
+            emails_mark_as_read()
+            click_older_page()
         else:
             click_older_page()
-
 
 
 # functions_calling
