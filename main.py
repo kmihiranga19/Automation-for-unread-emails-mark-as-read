@@ -53,7 +53,36 @@ def enter_password():
             pass
 
 
+def emails_mark_as_read():
+    select_all_checkbox = wait.until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[style="user-select: none;"]')))
+    select_all_checkbox.click()
+    mark_as_read = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[data-tooltip="Mark as read"]')))
+    mark_as_read.click()
+
+
+def click_older_page():
+    older = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[data-tooltip="Newer"]')))
+    older.click()
+
+
+def older_page_available():
+    older = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[data-tooltip="Newer"]')))
+    older_disable = older.get_attribute("aria-disabled")
+    print(older_disable)
+    if older_disable == "true":
+        return False
+    else:
+        return True
+
+
+def all_emails_as_read(older):
+    while older:
+        emails_mark_as_read()
+
 
 # functions_calling
 enter_email()
 enter_password()
+available = older_page_available()
+# all_emails_as_read(available)
